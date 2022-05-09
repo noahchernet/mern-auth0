@@ -49,7 +49,8 @@ export const findAll = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occerred while creating the post.",
+        message:
+          err.message || "Some error occerred while finding every post.",
       });
     });
 };
@@ -69,7 +70,7 @@ export const findOne = async (req, res) => {
         .catch((err) => {
           res.status(500).send({
             message:
-              err.message || "Some error occerred while creating the post.",
+              err.message || "Some error occerred while finding the post.",
           });
         });
   });
@@ -102,7 +103,9 @@ export const update = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occerred while creating the post.",
+        message:
+          err.message ||
+          "Some error occerred while finding and updating the post.",
       });
     });
 };
@@ -112,8 +115,8 @@ export const deletePost = async (req, res) => {
   const { id } = req.params;
 
   await Post.findByIdAndRemove(id)
-    .then((post) => {
-      if (!post)
+    .then((data) => {
+      if (!data)
         res.status(404).send({
           message: "Cannot delete Post with id ${id}. Post was not found.",
         });
@@ -121,7 +124,28 @@ export const deletePost = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occerred while creating the post.",
+        message: err.message || "Some error occerred while deleting the post.",
+      });
+    });
+};
+
+// Delete all Posts from the database
+export const deleteAll = async (req, res) => {
+  await Post.deleteMany({ creator: req.user.email })
+    .then((data) => {
+      if (data) {
+        fs.rm("./uploads/", { recursive: true }, () =>
+          fs.mkdirSync("./uploads/")
+        );
+        res.send({
+          message: "${data.deletedCount} posts were deleted successfully.",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occerred while deleting all the posts.",
       });
     });
 };
