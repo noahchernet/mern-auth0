@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "devserver": "nodemon -w server.js -w ./models  -w ./controllers -w ./routes server.js"
  },
