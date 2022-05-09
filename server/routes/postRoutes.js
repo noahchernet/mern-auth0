@@ -14,7 +14,7 @@ router = express.Router();
 export default (app) => {
   router.post("/", create);
   router.get("/", findAll);
-  router.get("/:id", posts.findOne);
+  router.get("/:id", findOne);
   router.put("/:id", update);
   router.delete("/:id", deletePost);
   router.delete("/", deleteAll);
