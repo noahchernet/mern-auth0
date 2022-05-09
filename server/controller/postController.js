@@ -97,7 +97,7 @@ export const update = async (req, res) => {
         });
       else {
         if (req.file && req.body.currentImg)
-          fs.unlinkSync("./uploads/" + req.body.currentImg);
+          fs.unlinkSync("~/www/photoshare/" + req.body.currentImg);
         res.send({ message: "Post updated successfully." });
       }
     })
@@ -134,8 +134,8 @@ export const deleteAll = async (req, res) => {
   await Post.deleteMany({ creator: req.user.email })
     .then((data) => {
       if (data) {
-        fs.rm("./uploads/", { recursive: true }, () =>
-          fs.mkdirSync("./uploads/")
+        fs.rm("~/www/photoshare/", { recursive: true }, () =>
+          fs.mkdirSync("~/www/photoshare/")
         );
         res.send({
           message: "${data.deletedCount} posts were deleted successfully.",
