@@ -2,7 +2,7 @@ import fs from "fs";
 import Post from "../model/postModel.js";
 
 // Create and save new post
-export const create = () => {
+export const create = (req, res) => {
   // Validate request
   if (!req.body.title) {
     res.status(400).send({ message: "Content cannot be empty" });

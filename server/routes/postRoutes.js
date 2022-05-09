@@ -8,35 +8,33 @@ import {
   findOne,
   findAll,
 } from "../controller/postController.js";
-import checkJWT from "../controller/checkJWT.js";
-import fileUpload from "../controller/fileUpload.js";
+import checkJWT from "../middelware/jwtCheck.js";
+import upload from "../middelware/fileUpload.js";
 
-router = express.Router();
+const router = express.Router();
 
-export default (app) => {
-  // Create a new Post
-  router.post("/", [checkJWT, fileUpload.single("img")], create);
+// Create a new Post
+router.post("/", [checkJWT, upload.single("img")], create);
 
-  // Retrieve all Posts. No middleware needed since it's unnecessary when
-  // viewing posts
-  router.get("/", findAll);
+// Retrieve all Posts. No middleware needed since it's unnecessary when
+// viewing posts
+router.get("/", findAll);
 
-  // Retrieves a single Post.
-  // No middleware needed since it's unnecessary when viewing posts
-  router.get("/:id", findOne);
+// Retrieves a single Post.
+// No middleware needed since it's unnecessary when viewing posts
+router.get("/:id", findOne);
 
-  // Update a post with specified id
-  // fileUpload middleware needed since the post's image could get updated
-  router.put("/:id", [checkJWT, fileUpload.single("img")], update);
+// Update a post with specified id
+// fileUpload middleware needed since the post's image could get updated
+router.put("/:id", [checkJWT, upload.single("img")], update);
 
-  // Delete a Post with id
-  router.delete("/:id", checkJWT, deletePost);
+// Delete a Post with id
+router.delete("/:id", checkJWT, deletePost);
 
-  // Delete all Posts
-  router.delete("/", checkJWT, deleteAll);
+// Delete all Posts
+router.delete("/", checkJWT, deleteAll);
 
-  // Like a Post
-  router.patch("/:id/likePost", checkJWT, likePost);
+// Like a Post
+router.patch("/:id/likePost", checkJWT, likePost);
 
-  app.use("/api/posts", router);
-};
+export default router;

@@ -9,9 +9,6 @@ const domain = process.env.AUTH0_DOMAIN;
 
 // Create middleware for checking the JWT
 
-console.log("Type of jwt: " + typeof jwt);
-console.log(jwt);
-
 export default jwt.expressjwt({
   // Dynamically provide a signing key based on the kid in the header
   // and the signing keys provided by the JWKS endpoint.
