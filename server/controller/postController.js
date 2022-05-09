@@ -74,3 +74,54 @@ export const findOne = async (req, res) => {
         });
   });
 };
+
+// Update a Post by the id in the request
+export const update = async (req, res) => {
+  if (!req.body)
+    return res
+      .status(400)
+      .send({ message: "Data to update cannot be empty." });
+
+  const { id } = req.params;
+
+  await Post.findByIdAndUpdate(
+    id,
+    { ...req.body, image: req.file ? req.file.fileName : req.body.currentImg },
+    { useFindAndModify: false }
+  )
+    .then((post) => {
+      if (!post)
+        res.status(404).send({
+          message: "Cannot update Post with id ${id}. Post was not found.",
+        });
+      else {
+        if (req.file && req.body.currentImg)
+          fs.unlinkSync("./uploads/" + req.body.currentImg);
+        res.send({ message: "Post updated successfully." });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occerred while creating the post.",
+      });
+    });
+};
+
+// Delete a Post with specific id
+export const deletePost = async (req, res) => {
+  const { id } = req.params;
+
+  await Post.findByIdAndRemove(id)
+    .then((post) => {
+      if (!post)
+        res.status(404).send({
+          message: "Cannot delete Post with id ${id}. Post was not found.",
+        });
+      else res.send({ message: "Post deleted successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occerred while creating the post.",
+      });
+    });
+};
