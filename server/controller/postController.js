@@ -62,7 +62,7 @@ export const findOne = async (req, res) => {
 
   await Post.findById(id).then((post) => {
     if (!post)
-      res.status(404).send({ message: "No post found with id ${id}" });
+      res.status(404).send({ message: `No post found with id ${id}` });
     else
       res
         .status(200)
@@ -93,7 +93,7 @@ export const update = async (req, res) => {
     .then((post) => {
       if (!post)
         res.status(404).send({
-          message: "Cannot update Post with id ${id}. Post was not found.",
+          message: `Cannot update Post with id ${id}. Post was not found.`,
         });
       else {
         if (req.file && req.body.currentImg)
@@ -118,7 +118,7 @@ export const deletePost = async (req, res) => {
     .then((data) => {
       if (!data)
         res.status(404).send({
-          message: "Cannot delete Post with id ${id}. Post was not found.",
+          message: `Cannot delete Post with id ${id}. Post was not found.`,
         });
       else res.send({ message: "Post deleted successfully." });
     })
@@ -138,7 +138,7 @@ export const deleteAll = async (req, res) => {
           fs.mkdirSync("~/www/photoshare/")
         );
         res.send({
-          message: "${data.deletedCount} posts were deleted successfully.",
+          message: `${data.deletedCount} posts were deleted successfully.`,
         });
       }
     })
@@ -160,7 +160,7 @@ export const likePost = async (req, res) => {
     res.status(500).send({
       message:
         err.message ||
-        "Some error occerred while retreiving the post with id ${id}.",
+        `Some error occerred while retreiving the post with id ${id}.`,
     });
   });
 
@@ -177,14 +177,14 @@ export const likePost = async (req, res) => {
       if (!data)
         res
           .status(404)
-          .send({ message: "Couldn't like post with id = ${id}" });
+          .send({ message: `Couldn't like post with id = ${id}` });
       else res.status(200).json(data);
     })
     .catch((err) => {
       res.status(500).send({
         message:
           err.message ||
-          "Some error occerred while liking post with id = ${id}",
+          `Some error occerred while liking post with id = ${id}`,
       });
     });
 };
