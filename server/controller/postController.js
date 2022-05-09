@@ -149,3 +149,42 @@ export const deleteAll = async (req, res) => {
       });
     });
 };
+
+// Like a post, or unlike it
+export const likePost = async (req, res) => {
+  if (!req.user) return res.status(401).send({ message: "Unauthenticated" });
+
+  const { id } = req.params;
+
+  const post = await Post.findById(id).catch((err) => {
+    res.status(500).send({
+      message:
+        err.message ||
+        "Some error occerred while retreiving the post with id ${id}.",
+    });
+  });
+
+  const index = post.likes.findIndex((id) => id === String(req.user.email));
+
+  // Add the like to the list of users that liked it
+  // if the user has liked it already, unlike it
+  if (index === -1) post.likes.push(req.user.email);
+  else post.likes = post.likes.filter((id) => id !== String(req.user.email));
+
+  // TODO: update the likes of the post only, not the entire post
+  await Post.findByIdAndUpdate(id, post, { new: true })
+    .then((data) => {
+      if (!data)
+        res
+          .status(404)
+          .send({ message: "Couldn't like post with id = ${id}" });
+      else res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message ||
+          "Some error occerred while liking post with id = ${id}",
+      });
+    });
+};
