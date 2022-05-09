@@ -1,4 +1,4 @@
-import http from "./config";
+import http from "./config.js";
 
 const headers = (token) => {
   headers: {
@@ -6,6 +6,7 @@ const headers = (token) => {
   }
 };
 
+// PostDataService simplifies the axios requests into functions
 class PostDataService {
   getAll() {
     return http.get("/posts");
