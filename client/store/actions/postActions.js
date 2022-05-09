@@ -4,7 +4,6 @@ import {
   UPDATE_POST,
   DELETE_POST,
   DELETE_ALL_POSTS,
-  LIKE,
   LIKE_POST,
 } from "./types.js";
 import PostDataService from "../../api/postServices.js";
