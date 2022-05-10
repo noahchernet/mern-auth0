@@ -5,7 +5,7 @@ import {
   DELETE_POST,
   DELETE_ALL_POSTS,
   LIKE_POST,
-} from "./types.js";
+} from "../actions/types.js";
 
 const initialState = [];
 
