@@ -1,7 +1,8 @@
 import "../styles/globals.css";
 import { Provider } from "react-redux";
+import store from "../store/store";
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Component {...pageProps} />
@@ -9,4 +10,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default App;
